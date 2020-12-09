@@ -1,0 +1,30 @@
+import util.
+import ordset.
+
+main => go.
+
+go => day61,day62.
+
+day61 =>
+    I=0,
+    Lines = read_file_lines("day6.txt"),
+    foreach(Line in Lines)
+    %Sort then use function split to remove space
+        S=Line.new_ordset.split(),
+        I := I+S[1].len,
+        println([I,S]),
+    end,
+    println(I).
+
+day62 => 
+    I=0,
+    Lines = read_file_lines("day6.txt"),
+    foreach(Line in Lines)
+        Items = Line.split(),
+        S=Items[1].new_ordset,
+        foreach(Item in Items)
+            S := intersection(S,Item.new_ordset),
+        end,
+        I := I+S.len,
+    end,
+    println(I).
