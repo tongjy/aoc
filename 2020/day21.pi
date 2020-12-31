@@ -1,5 +1,7 @@
 import cp.
 
+main =>time(go).
+
 go =>
 R = [CQVC,VMKT,SBVBZCG,JJFHF,MZJNSM,XHNL,ZLKVKZT,SSXLJZ,VSHD,PTPQNL,BZRTTH,VTFFKS,BNL,NTRQQ,CDHLQP,VMKS,NPGXL,PVZHM,VNBRHB,KSM,GVQDR,MML,FJBBJ,GZFM,BLLK,RKGJKVL,XMHSBD,NHX,CLBZN,VSSSD,KCRH,TTQQVB,PNLKL,GDBS,FPBQSB,JKXSGPK,LQTTKM,LGN,RRJB,VFKTC,GCXJZ,HZHZKN,DLCGQG,LSNRH,SXJXJX,RXVZB,RVNFCRR,RLMV,TTHHP,BQVR,MNLCJ,PMLQGP,KFXR,RSBPH,CHBTP,GZHZHRC,JSQPT,BMQH,LJXSF,RQJDCB,FHCMCTH,FSBN,JSJZ,FLHN,RTXKP,QLRJF,DNPRVN,NTFT,LCNXPZ,NPKVT,STPZHRP,KRSDGRM,BBQS,PSQKPR,BQPRV,RVPGL,FRGMD,XNSXV,LHFJ,PKVX,NCXD,ZPKL,VFRRD,DCQQD,VCNGS,RZZT,XHGHXJG,JDMVK,XDP,XZHXJ,VTDF,SSHKPHB,LKR,BVB,KKBBB,LMNBTPN,LJJL,FPD,TDTFNV,NTPNB,BJSLHF,QJZQ,KVZHN,XTD,HDGRMV,ZKHFKG,JXRS,XLKF,MBSC,GBHQD,XJKPM,LFXZL,SNDBNC,LQXT,VQGCBR,JFMVTDD,FCHCJ,JZJC,FXHTS,MFTBJ,JDVXF,QRT,GGBPLN,SVQKG,BBKQ,STTTXBM,RTZCQ,PHGCP,VFCRDM,GDNKC,VQJL,MBCX,JDRVF,JJRM,BQTDV,QXQNGJH,KPJLL,TMXM,CGHJ,LCH,KQBKB,MMNX,TRLS,GSQ,JVV,SRMTB,CBXRS,XXRZN,TBJH,GDVFSD,VK,NCQR,MQB,ZMP,HCHRM,LRGD,DMSSM,GFVFS,BLDTS,VJMRL,QBMG,RHZJDCJZ,LKCK,DVNBT,SRBHB,FXG,GDVKH,VDQTNR,PLGSN,SJFT,RNQH,XNHBRX,DHTBH,CQFLD,ZCTBC,QDT,JCR,XKMFX,DSPHL,QNQG,BKKHRL,XGHFGF,RDQS,FNNGTQH,LBNSSCN,CKKNL,QZCKBB,DSJXR,HDZCCH,NMNFX,NJDQ,DMRVF,JLPJDB,ZBM,VMJJV,CDQT,VBRNF,QDSP,QBDJJT,FKLQD],
 S = [cqvc,vmkt,sbvbzcg,jjfhf,mzjnsm,xhnl,zlkvkzt,ssxljz,vshd,ptpqnl,bzrtth,vtffks,bnl,ntrqq,cdhlqp,vmks,npgxl,pvzhm,vnbrhb,ksm,gvqdr,mml,fjbbj,gzfm,bllk,rkgjkvl,xmhsbd,nhx,clbzn,vsssd,kcrh,ttqqvb,pnlkl,gdbs,fpbqsb,jkxsgpk,lqttkm,lgn,rrjb,vfktc,gcxjz,hzhzkn,dlcgqg,lsnrh,sxjxjx,rxvzb,rvnfcrr,rlmv,tthhp,bqvr,mnlcj,pmlqgp,kfxr,rsbph,chbtp,gzhzhrc,jsqpt,bmqh,ljxsf,rqjdcb,fhcmcth,fsbn,jsjz,flhn,rtxkp,qlrjf,dnprvn,ntft,lcnxpz,npkvt,stpzhrp,krsdgrm,bbqs,psqkpr,bqprv,rvpgl,frgmd,xnsxv,lhfj,pkvx,ncxd,zpkl,vfrrd,dcqqd,vcngs,rzzt,xhghxjg,jdmvk,xdp,xzhxj,vtdf,sshkphb,lkr,bvb,kkbbb,lmnbtpn,ljjl,fpd,tdtfnv,ntpnb,bjslhf,qjzq,kvzhn,xtd,hdgrmv,zkhfkg,jxrs,xlkf,mbsc,gbhqd,xjkpm,lfxzl,sndbnc,lqxt,vqgcbr,jfmvtdd,fchcj,jzjc,fxhts,mftbj,jdvxf,qrt,ggbpln,svqkg,bbkq,stttxbm,rtzcq,phgcp,vfcrdm,gdnkc,vqjl,mbcx,jdrvf,jjrm,bqtdv,qxqngjh,kpjll,tmxm,cghj,lch,kqbkb,mmnx,trls,gsq,jvv,srmtb,cbxrs,xxrzn,tbjh,gdvfsd,vk,ncqr,mqb,zmp,hchrm,lrgd,dmssm,gfvfs,bldts,vjmrl,qbmg,rhzjdcjz,lkck,dvnbt,srbhb,fxg,gdvkh,vdqtnr,plgsn,sjft,rnqh,xnhbrx,dhtbh,cqfld,zctbc,qdt,jcr,xkmfx,dsphl,qnqg,bkkhrl,xghfgf,rdqs,fnngtqh,lbnsscn,ckknl,qzckbb,dsjxr,hdzcch,nmnfx,njdq,dmrvf,jlpjdb,zbm,vmjjv,cdqt,vbrnf,qdsp,qbdjjt,fklqd],
@@ -38,10 +40,6 @@ table_in([{T}: T in [SOY, NUTS, SESAME]],[{T}: T in [RRJB, TDTFNV, SBVBZCG, DMRV
 table_in([{T}: T in [WHEAT, PEANUTS, EGGS]],[{T}: T in [XTD, KKBBB, SSXLJZ, QBDJJT, TRLS, LKR, BMQH, KSM, FLHN, VMKT, GZFM, RHZJDCJZ, PSQKPR, NHX, JVV, CKKNL, VQJL, FKLQD, DMRVF, LQXT, ZCTBC, GBHQD, MZJNSM, VJMRL, RRJB, NMNFX, VFRRD, DSPHL, BNL, CQVC, RTXKP, VTDF, XZHXJ, CDHLQP, LSNRH, SRBHB, BZRTTH, ZBM, CDQT, MQB, BJSLHF, FXHTS, MBCX, XMHSBD, LHFJ, FRGMD, NTFT, DMSSM, FPBQSB, ZMP, MML, JXRS, BQTDV, JDRVF, TDTFNV, MMNX, XGHFGF, JJRM, QDT, ZPKL, JSJZ, TBJH, XXRZN, FPD, LCH, BQVR, GCXJZ, PLGSN, JCR, KFXR, RTZCQ, JLPJDB, RNQH]]),
 table_in([{T}: T in [WHEAT, SOY, EGGS]],[{T}: T in [CHBTP, KRSDGRM, BJSLHF, SNDBNC, MZJNSM, QRT, GZHZHRC, ZMP, CQVC, CGHJ, RTXKP, XXRZN, XLKF, TBJH, NTFT, RSBPH, XHNL, VFCRDM, VNBRHB, NHX, JCR, QDT, JSQPT, RVNFCRR, KQBKB, VMKT, QJZQ, FKLQD, VTDF, NCXD, RQJDCB, LRGD, LCH, VQGCBR, BQTDV, RLMV, KFXR, PKVX, XDP, GGBPLN, CDHLQP, XNSXV, FNNGTQH, DHTBH, STTTXBM, CKKNL, VQJL, QLRJF, PSQKPR, RNQH, BLDTS, DLCGQG, LQTTKM, QDSP, QBMG, GSQ, QNQG, ZKHFKG, TRLS, NJDQ, MFTBJ, GDVFSD, FHCMCTH, RKGJKVL, CBXRS, STPZHRP, HDZCCH, QBDJJT, FCHCJ, JJRM, MNLCJ, ZCTBC, NTRQQ, VCNGS, CDQT, XTD, RZZT, JXRS, XZHXJ, XMHSBD]]),
 solve(Vars),
-println("eggs,fish,nuts,peanuts,sesame,shellfish,soy,wheat"),
-println([S[I]: I in Vars]),
-println(Vars),
-nl,
 
 %Let's delete all the Vars from Origenal
 Oriflat = [[CQVC, VMKT, SBVBZCG, JJFHF, MZJNSM, XHNL, ZLKVKZT, SSXLJZ, VSHD, PTPQNL, BZRTTH, VTFFKS, BNL, NTRQQ, CDHLQP, VMKS, NPGXL, PVZHM, VNBRHB, KSM, GVQDR, MML, FJBBJ, GZFM, BLLK, RKGJKVL, XMHSBD, NHX, CLBZN, VSSSD, KCRH, TTQQVB, PNLKL, GDBS, FPBQSB, JKXSGPK, LQTTKM, LGN, RRJB, VFKTC, GCXJZ, HZHZKN, DLCGQG, LSNRH, SXJXJX, RXVZB, RVNFCRR, RLMV, TTHHP, BQVR, MNLCJ, PMLQGP, KFXR, RSBPH, CHBTP, GZHZHRC, JSQPT, BMQH, LJXSF, RQJDCB, FHCMCTH, FSBN, JSJZ, FLHN, RTXKP, QLRJF, DNPRVN, NTFT, LCNXPZ, NPKVT, STPZHRP, KRSDGRM, BBQS],
@@ -75,5 +73,9 @@ Oriflat = [[CQVC, VMKT, SBVBZCG, JJFHF, MZJNSM, XHNL, ZLKVKZT, SSXLJZ, VSHD, PTP
 ].flatten,
 
 foreach(I in Vars) Oriflat:=Oriflat.delete_all(I) end,
-println(allleft=Oriflat.len),
+println(part_one=Oriflat.len),
+nl,
+
+println("eggs,fish,nuts,peanuts,sesame,shellfish,soy,wheat"),
+println(part_two=[S[I]: I in Vars]),
 nl.

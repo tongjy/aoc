@@ -1,6 +1,7 @@
-main => 
-    go1,go,
-    go2,go3,
+main => time(go).
+
+go=>
+    go1,go4,
     nl.
 
 
@@ -9,7 +10,7 @@ go1 =>
     P2 = [3,40,37,14,1,13,49,41,28,48,18,7,23,38,32,34,46,39,17,2,11,6,10,36,26],
     L1=play1(P1,P2),
     L = [I*J: {I,J} in zip(L1.len..-1..1, L1)].sum,
-    println(L),
+    println(part_one=L),
     println(L1),
     nl.
 
@@ -45,12 +46,12 @@ go3=>
     println(L),
     println(L1).
     
-go =>
+go4 =>
     P1 = [21,22,33,29,43,35,8,30,50,44,9,42,45,16,12,4,15,27,20,31,25,47,5,24,19],
     P2 = [3,40,37,14,1,13,49,41,28,48,18,7,23,38,32,34,46,39,17,2,11,6,10,36,26],
     L1=play(P1,P2,1).flatten,
     L = [I*J: {I,J} in zip(L1.len..-1..1, L1)].sum,
-    println(L),
+    println(part_two=L),
     println(L1),
     nl.
 
