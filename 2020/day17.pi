@@ -14,6 +14,11 @@ S2 =
 {"..#"},
 {"###"}}.
     
+main => time(go).
+
+go=>
+    day17(6),day172(6).
+
 day17(N) =>
     inputdata(S),
     S:={I.to_array:  L1 in S, I in L1},

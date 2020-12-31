@@ -1,4 +1,8 @@
 import util.
+main => time(go).
+
+go=>
+    day181,day182.
 
 day181 => 
     Lines = read_file_lines("day18.txt"),

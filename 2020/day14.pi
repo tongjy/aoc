@@ -1,6 +1,11 @@
 %day14
 import util.
 
+main => time(go).
+
+go =>
+    day141,day142.
+
 input_data(S) => 
     Lines = read_file_lines("day14.txt"),
     S = new_list(Lines.length),

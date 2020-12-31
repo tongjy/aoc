@@ -1,7 +1,7 @@
 import util.
 import cp.
 
-main=>go.
+main=>time(go).
 
 go => day201,day202.
 
@@ -32,9 +32,9 @@ day202 =>
     foreach( D in 1..8 )
         ImgN:=rotate(Img, D),
         L=match(ImgN), if(L[1]>0) then
-            print("Parttens:"),println(dir_match=[D,L[1]]),
+            println(dir_match=[D,L[1]]),
             Count = ['#':S in L[2].flatten, S='#'].len,  %count #
-            print("Day202:"),println(Count)
+            println(count_sharp=Count)
         end
     end,
     nl.

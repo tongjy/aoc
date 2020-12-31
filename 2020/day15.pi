@@ -1,6 +1,13 @@
 %day14
 import util.
 
+main => time(go).
+
+go =>
+    day151([0,8,15,2,12,1,4], 2020),
+    day152([0,8,15,2,12,1,4], 30000000).
+
+
 day152(A,M) =>
     Ks=new_map(),
     foreach (L in zip(1..A.len, A))
@@ -12,7 +19,7 @@ day152(A,M) =>
         D:=cond((Ks.has_key(D1)), N-1-Ks.get(D1), 0),
         Ks.put(D1,N-1)
     while(N < M),
-    println([N,D]).
+    println(spoken=D).
 
 %back
 day151(A,D) =>
@@ -22,7 +29,7 @@ day151(A,D) =>
     end,
     Ks.put(last,A.last), Ks.put(max,A.len),
     L=turns(D,Ks),
-    println(L).
+    println(spoken = L).
 
 
 turns(N, Ks)=W, N==Ks.get(max) =>W=Ks.get(last).

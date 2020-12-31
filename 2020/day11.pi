@@ -1,10 +1,10 @@
 import util, ordset.
 
-main => go.
+main => time(go).
 
-go => day111,day112.
+go => day101,day102.
 
-day111 =>
+day101 =>
     input_data(Seats),
     Done = true,
     do
@@ -14,7 +14,7 @@ day111 =>
     while (Done),
     println(c1(Seats)).
 
-day112 =>
+day102 =>
     input_data(NewSeats),
     Cond = true,
     do
