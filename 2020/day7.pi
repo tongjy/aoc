@@ -1,6 +1,6 @@
 import util, ordset.
 
-main => go.
+main => time(go).
 
 go => day71,day72.
 
@@ -38,7 +38,7 @@ pack(dark_green, 2, dark_blue).
 pack(dark_blue, 2, dark_violet).
 pack(dark_violet, 1, no_other).
 */
-% ground truth，manually pre-processing ^(%w*), ... (\d, \w* ))$ ==> pack(\1,\2)\r\n
+% ground truth
 pack(pale_chartreuse, 3, faded_orange).
 pack(drab_gold, 5, dark_aqua).
 pack(mirrored_magenta, 3, dotted_violet).

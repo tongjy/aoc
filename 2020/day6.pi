@@ -1,7 +1,7 @@
 import util.
 import ordset.
 
-main => go.
+main => time(go).
 
 go => day61,day62.
 
@@ -11,8 +11,7 @@ day61 =>
     foreach(Line in Lines)
     %Sort then use function split to remove space
         S=Line.new_ordset.split(),
-        I := I+S[1].len,
-        println([I,S]),
+        I := I+S[1].len, %println([I,S]),
     end,
     println(I).
 
