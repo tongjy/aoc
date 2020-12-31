@@ -2,9 +2,9 @@ import util, ordset.
 
 main => go.
 
-go => day101,day102.
+go => day111,day112.
 
-day101 =>
+day111 =>
     input_data(Seats),
     Done = true,
     do
@@ -14,7 +14,7 @@ day101 =>
     while (Done),
     println(c1(Seats)).
 
-day102 =>
+day112 =>
     input_data(NewSeats),
     Cond = true,
     do
@@ -94,7 +94,7 @@ input_data1(Seats) => Seats={
 "L.LLLLL.LL".to_array}.
 
 input_data(Seats) => 
-    Lines = read_file_lines("day10.txt"),
+    Lines = read_file_lines("day11.txt"),
     Seats = new_array(Lines.length),
     I = 1,
     foreach(Line in Lines)
