@@ -1,0 +1,72 @@
+import util.
+
+inputdata(S) =>
+S={{"##..####"},
+    {".###...."},
+    {"#.###.##"},
+    {"#....#.."},
+    {"...#..#."},
+    {"#.#...##"},
+    {"..#.#.#."},
+    {".##...#."}},
+S2 = 
+{{".#."},
+{"..#"},
+{"###"}}.
+    
+day17(N) =>
+    inputdata(S),
+    S:={I.to_array:  L1 in S, I in L1},
+    L=round({S},N),
+    println([X1.len: X in L.array_matrix_to_list , X1=[W:W in X,W=='#']].sum).
+
+day172(N) =>
+    inputdata(S),
+    S:={I.to_array:  L1 in S, I in L1},
+    L=round2({{S}},N),
+    println([X1.len: X in L.array_matrix_to_list ,  
+        X1=[W:W in X.array_matrix_to_list,W=='#']].sum).
+
+round(I, 0)=I.
+round(I, N) = O =>
+    O1 = round(I, N-1),
+    O = gonext(O1).
+    
+round2(I, 0)=I.
+round2(I, N) = O =>
+    O1 = round2(I, N-1),
+    O = gonext2(O1).
+
+gonext2(I) = O =>
+    Shape = [I.len+2,I[1].len+2,I[1,1].len+2, I[1,1,1].len+2],
+    O = new_array(Shape[1],Shape[2],Shape[3],Shape[4]),
+    foreach( X in 1..Shape[1], Y in 1..Shape[2], Z in 1..Shape[3], M in 1..Shape[4])
+        R=seats2(X-1,Y-1,Z-1,M-1,I),
+        O[X,Y,Z,M] := cond( (R==[3,'.'];R==[3,'#'];R==[2,'#']), '#', '.' )
+    end.
+
+seats2(X,Y,Z,M,S) = R =>
+    M1=S.len,M2=S[1].len,M3=S[1,1].len,M4=S[1,1,1].len,
+    R=[
+        [S[Xi,Yi,Zi,Mi]:
+            Xi in X-1..X+1,Yi in Y-1..Y+1, Zi in Z-1..Z+1,Mi in M-1..M+1,
+            Yi>0,Xi>0,Zi>0,Mi>0,Xi<=M1,Yi<=M2,Zi<=M3,Mi<=M4,[Xi,Yi,Zi,Mi]!=[X,Y,Z,M],
+            S[Xi,Yi,Zi,Mi]=='#'].len,
+        cond( (Y>0,X>0,Z>0,M>0,X<=M1,Y<=M2,Z<=M3,M<=M4), S[X,Y,Z,M], '.') ].
+        
+gonext(I) = O =>
+    Shape = [I.len+2,I[1].len+2,I[1,1].len+2],
+    O = new_array(Shape[1],Shape[2],Shape[3]),
+    foreach( X in 1..Shape[1], Y in 1..Shape[2], Z in 1..Shape[3] )
+        R=seats(X-1,Y-1,Z-1,I),
+        O[X,Y,Z] := cond( (R==[3,'.'];R==[3,'#'];R==[2,'#']), '#', '.' )
+    end.
+    
+seats(X,Y,Z,S) = R =>
+    M1=S.len,M2=S[1].len,M3=S[1,1].len,
+    R=[
+        [S[Xi,Yi,Zi]:
+            Xi in X-1..X+1,Yi in Y-1..Y+1, Zi in Z-1..Z+1,
+            Yi>0,Xi>0,Zi>0,Xi<=M1,Yi<=M2,Zi<=M3,[Xi,Yi,Zi]!=[X,Y,Z],
+            S[Xi,Yi,Zi]=='#'].len,
+        cond( (Y>0,X>0,Z>0,X<=M1,Y<=M2,Z<=M3), S[X,Y,Z], '.') ].

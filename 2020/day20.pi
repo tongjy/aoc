@@ -1,0 +1,212 @@
+import util.
+import cp.
+
+main=>go.
+
+go => day201,day202.
+
+inputdata(Vars) => 
+    Lines = read_file_lines("day20.txt"),
+    N =Lines.len/>12,
+    Vars=new_list(N), P=[], Tile=[], P2=[],
+    foreach(I in 1..N)
+        P:=Lines[(I-1)*12+2..I*12-1],
+        Tile:=Lines[(I-1)*12+1,6..9],
+        P2 := P.row(1).to_i1++P[1].to_i1++P.row(10).to_i1++P[10].to_i1++[Tile.to_int,P],
+        Vars[I]:=P2
+    end.
+
+day201 =>
+    inputdata(V),
+    MinRange=minIndex(V),
+    println(minRange=[V[I,9]:I in MinRange]),
+    println(prod=prod([V[I,9]:I in MinRange])),
+    nl.
+
+day202 =>
+    inputdata(V),
+    Vars=solveV(V),
+    Dirs = solveD(Vars, V),
+    !,
+    Img = image( Vars, Dirs, V ),
+    foreach( D in 1..8 )
+        ImgN:=rotate(Img, D),
+        L=match(ImgN), if(L[1]>0) then
+            print("Parttens:"),println(dir_match=[D,L[1]]),
+            Count = ['#':S in L[2].flatten, S='#'].len,  %count #
+            print("Day202:"),println(Count)
+        end
+    end,
+    nl.
+
+    
+solveD(Vars,V)=Dirs =>
+    N=V.len, M=ceiling(N.sqrt),
+    Dirs = new_list(N),
+    Dirs :: 1..8,
+    foreach( I in 1..N )
+        if(I mod M !=0) then table_in( [{Dirs[I],Dirs[I+1]}], leftright(I, V, Vars) ) end,
+        if ( I <= N-M ) then table_in( [{Dirs[I],Dirs[I+M]}], updown(I, V, Vars, M) ) end
+    end,
+    solve(Dirs).
+
+partten=[
+"                  # ",
+"#    ##    ##    ###",
+" #  #  #  #  #  #   "].
+
+rotate(Img, D)=ImgN, D=1 =>
+    ImgN = Img.
+
+rotate(Img, D)=ImgN, D>1 =>
+    ImgN = [ line(Img,N,D): N in 1..Img[1].len ].
+
+    
+%Match
+match(Img)=[N, ImgN] =>
+    P = partten(), N = 0, ImgN=Img,
+    foreach ( Y in 1..Img.len-P.len, X in 1..Img[1].len-P[1].len )
+        foreach(X1 in 1..P[1].len, Y1 in 1..P.len)
+            P[Y1,X1] =' '; 
+            ( P[Y1,X1]='#', Img[Y+Y1-1, X+X1-1]='#' ,ImgN[Y+Y1-1, X+X1-1]:='O' )
+        end, N:=N+1;true
+    end,!.
+
+bimage( Vars, Dirs, V )= Img =>
+    N=V.len, M=ceiling(N.sqrt), ImgSize=V[1,10].len,
+    Img=new_list(M*(ImgSize+1)," "),
+    foreach( I in 1..N )
+        P:=V[Vars[I],10], D:=Dirs[I], FirstLn:= (I /> M -1) * (ImgSize+1) + 1,
+        foreach( J in 1..ImgSize )
+            Img[FirstLn+J-1]:=Img[FirstLn+J-1]++line(P,J,D)++" "
+        end
+    end.
+
+image( Vars, Dirs, V )= Img =>
+    N=V.len, M=ceiling(N.sqrt), ImgSize=V[1,10].len,
+    Img=new_list(M*(ImgSize-2),""),
+    foreach( I in 1..N )
+        P:=V[Vars[I],10], D:=Dirs[I], FirstLn:= (I /> M -1) * (ImgSize-2) + 1,
+        foreach( J in 2..ImgSize-1 )
+            Img[FirstLn+J-2]:=Img[FirstLn+J-2]++line(P,J,D).slice(2,ImgSize-1)
+        end
+    end.
+
+
+/****
+position:1,2,3,4
+left=1-4,right=2-3,up=1-2,down=4-3
+
+clockwise D=[1..4],1@pos[1],2@ pos[2]...
+Posit[1,2,3,4] <-> Point[1,2,3,4]
+1@1 2@2
+4@4 3@3
+-----------------------
+anticlockwise D=[5..8],1@pos[1],2@ pos[4]...
+Posit[1,2,3,4] <-> Point[1,4,3,2]
+1@1 4@2
+2@4 3@3
+****/
+
+modint(N,M)=(N-1) mod M+1.
+
+%Direction from 1 to 2: 1-2
+line(P,N,D) = L, D=1 => L=P[N].
+%4-1
+line(P,N,D) = L, D=2 => L=[P[I,N]: I in 1..P.len].reverse.
+%3-4
+line(P,N,D) = L, D=3 => L=P[P.len-N+1].reverse.
+%2-3
+line(P,N,D) = L, D=4 => L=[P[I,P.len-N+1]: I in 1..P.len].
+%1-4
+line(P,N,D) = L, D=5 => L=[P[I,N]: I in 1..P.len].
+%2-1
+line(P,N,D) = L, D=6 => L=P[N].reverse.
+%3-2
+line(P,N,D) = L, D=7 => L=[P[I,P.len-N+1]: I in 1..P.len].reverse.
+%4-3
+line(P,N,D) = L, D=8 => L=P[P.len-N+1].
+
+
+% point @ position with Direction D 
+% clockwise[1,2,3,4]- Dir:point 1 at pos[1,2,3,4]
+pos2Pot(Dir, Pos )=Point, Dir <=4, Pos <=4=>
+    Point = ( 1 - Dir + Pos -1 ) mod 4 + 1.
+
+% anticlockwise[1,2,3,4]- Dir: point 1 at pos[1,2,3,4]+4
+pos2Pot(Dir, Pos )=Point , 4 < Dir, Dir <=8, Pos <=4 =>
+    Point = ( 1 + Dir - Pos -1 ) mod 4 + 1.
+
+%value to index 
+line2Index(P1,P2)=R =>
+    T=[{1, 4},{4, 1},{1, 2},{2, 1},{2, 3},{3, 2},{4, 3},{3, 4}],
+    R = [Ti: Ti in 1..T.len, {P1,P2}=T[Ti]].first .
+   
+%Posi(1-4)
+left(V, D)=R =>
+    R = V[ line2Index( pos2Pot(D, 1), pos2Pot(D, 4) ) ].
+
+%Posi(2-3)
+right(V, D)=R =>
+    R = V[ line2Index( pos2Pot(D, 2), pos2Pot(D, 3) ) ].
+
+%Posi(1-2)
+up(V, D)=R =>
+    R = V[ line2Index( pos2Pot(D, 1), pos2Pot(D, 2) ) ].
+    
+%posi(4-3)
+down(V, D)=R =>
+    R = V[ line2Index( pos2Pot(D, 4), pos2Pot(D, 3) ) ].
+
+leftright(I, V, Vars)=L =>
+    Left=V[Vars[I], 1..8], Right=V[Vars[I+1], 1..8],
+    L = [{I1,I2}: I1 in 1..8, I2 in 1..8, right(Left,I1)==left(Right,I2) ].
+
+updown(I, V, Vars, M)=L =>
+    Up=V[Vars[I], 1..8], Down=V[Vars[I+M], 1..8],
+    L = [{I1,I2}: I1 in 1..8, I2 in 1..8, down(Up, I1)==up(Down,I2) ].
+
+row(P,N) = L => L=[P[I,N]: I in 1..P.len].
+
+to_i1(S) = A =>
+    S1 = S.replace('#','0').replace('.','1'),
+    A=[to_int("0b"++ S1), to_int("0b"++ S1.reverse)].
+
+
+solveV(V)=Vars =>
+    N=V.len, M=ceiling(N.sqrt),
+    Vars = new_list(N), % M*M
+    T=tb_RL(V),
+    Vars :: 1..N,
+    MinRange=minIndex(V),
+    [Vars[Corner]: Corner in [1,M,N,N-M+1] ] :: MinRange, 
+    all_different(Vars),
+    %symmetry breaking
+    Vars[1] #< Vars[M],
+    Vars[M] #> Vars[N-M+1],
+    Vars[1] #< Vars[N],
+
+    table_in([{Vars[I],Vars[I+1]}: I in 1..N, I mod M != 0], T),
+    table_in([{Vars[I],Vars[I+M]}: I in 1..N-M], T),
+ 
+    solve(Vars).
+    
+test =>
+    inputdata(V),
+    R = minIndex(V),
+    R1 = [{I,V[I,9]}:I in R],
+    println(R1),
+    T=tb_RL(V),
+    println(pairTable=T).
+
+minIndex(V)=R =>
+    N1 = [ I[1..8]:I in V ],
+    Nf = N1.flatten, 
+    N2 = [ sum(L): I1 in N1, L=[[1: F in Nf, F=J].len: J in I1] ],
+    R = [ I: I in 1..V.len, N2[I]=min(N2) ].
+
+%each paired values index in V
+tb_RL(V)=T =>  
+    T = [{I,J}: I in 1..V.len, J in 1..V.len, I != J,
+        K in 1..8, membchk(V[I,K], V[J,1..8]) ].remove_dups . 
+

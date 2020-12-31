@@ -1,0 +1,89 @@
+main => 
+    go1,go,
+    go2,go3,
+    nl.
+
+
+go1 =>
+    P1 = [21,22,33,29,43,35,8,30,50,44,9,42,45,16,12,4,15,27,20,31,25,47,5,24,19],
+    P2 = [3,40,37,14,1,13,49,41,28,48,18,7,23,38,32,34,46,39,17,2,11,6,10,36,26],
+    L1=play1(P1,P2),
+    L = [I*J: {I,J} in zip(L1.len..-1..1, L1)].sum,
+    println(L),
+    println(L1),
+    nl.
+
+play1(P1,P2)=R =>
+    N=[P1,P2],
+    do
+        N:=round1(N[1],N[2])
+    while( N[1] != [] , N[2] != [] ),
+    R = N[1]++N[2].
+    
+round1([H1|T1],[H2|T2])=N => %game1
+    if( H1>H2) then
+        N1=T1++[H1,H2],N2=T2
+    else
+        N1=T1,N2=T2++[H2,H1]
+    end,
+    N=[N1, N2].
+
+
+go2=>
+    P1 = [9, 2, 6, 3, 1],
+    P2 = [5, 8, 4, 7, 10],
+    L1 = play(P1,P2, 1).flatten,
+    L = [I*J: {I,J} in zip(P1.len+P2.len..-1..1, L1)].sum,
+    println(L),
+    println(L1).
+
+go3=>
+    P1 = [43,19],
+    P2 = [2,29,14],
+    L1 = play(P1,P2, 1).flatten,
+    L = [I*J: {I,J} in zip(P1.len+P2.len..-1..1, L1)].sum,
+    println(L),
+    println(L1).
+    
+go =>
+    P1 = [21,22,33,29,43,35,8,30,50,44,9,42,45,16,12,4,15,27,20,31,25,47,5,24,19],
+    P2 = [3,40,37,14,1,13,49,41,28,48,18,7,23,38,32,34,46,39,17,2,11,6,10,36,26],
+    L1=play(P1,P2,1).flatten,
+    L = [I*J: {I,J} in zip(L1.len..-1..1, L1)].sum,
+    println(L),
+    println(L1),
+    nl.
+
+play(P1,P2, Nu)=R =>
+    N=[P1,P2],
+    His = [N],
+    do
+        N:=round(N[1],N[2], Nu),
+        if membchk(N,His)  then  %His
+            N[2]:=[] %palyer 1 win
+        else
+            His:=His++[N]
+        end
+    while( N[1] != [] , N[2] != [] ),
+    R = N.
+
+    
+%start a new game
+round( P1@[H1|T1], P2@[H2|T2], Nu)=N, (H1 <= T1.len, H2 <= T2.len) =>
+    Nu:=Nu+1,
+    R = play(T1[1..H1],T2[1..H2], Nu),
+    if( []=R[2] ) then
+        N1=T1++[H1,H2],N2=T2
+    else
+        N1=T1,N2=T2++[H2,H1]
+    end,
+    N=[N1, N2].
+
+%( H1 > T1.len ; H2 > T2.len)
+round( P1@[H1|T1], P2@[H2|T2], _Nu )=N  => %game1
+    if( H1>H2) then
+        N1=T1++[H1,H2], N2=T2
+    else
+        N1=T1, N2=T2++[H2,H1]
+    end,
+    N=[N1, N2].

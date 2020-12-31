@@ -1,0 +1,106 @@
+%day14
+import util.
+
+input_data(S) => 
+    Lines = read_file_lines("day14.txt"),
+    S = new_list(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        S[I] = Line,
+        I := I+1
+    end.
+
+input_data1(S) => 
+S=[
+"mask = XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X",
+"mem[8] = 11",
+"mem[7] = 101",
+"mem[8] = 0" ].
+
+day141 =>
+    input_data(S),
+    R=new_map([mask="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"]),
+    run(S, R),
+%s    writeln(result=R),
+    R.put(mask,0),
+    writeln(sum_val=R.values.sum).
+
+
+run([],_) => true.
+run([H|T], R) =>
+    runIns( H,R ),
+    run(T,R).
+
+runIns(H, R) =>
+    I = H.split(" =[]"),
+    if I[1]=="mask" then
+        R.put(mask,I[2])
+    else
+        V = memfunc( R.get(mask), I[3].to_int),
+        R.put(I[2].to_int,V)
+    end.
+
+memfunc(Mask,Mem2)=M =>
+    Mask0=("0b"++Mask).replace('X','1').to_int,
+    Mask1=("0b"++Mask).replace('X','0').to_int,
+    M= Mem2 /\  Mask0 \/ Mask1.
+    
+input_data2(S) => 
+S=[
+"mask = 000000000000000000000000000000X1001X",
+"mem[42] = 100",
+"mask = 00000000000000000000000000000000X0XX", 
+"mem[26] = 1" ].
+
+day142 =>
+    input_data(S),
+    R=new_map(),
+    run2(S, R),
+    R.put(mask,0),
+%    writeln(result=R),
+    writeln(sum_val=R.values.sum).
+
+run2([],_) => true.
+run2([H|T], R) =>
+    runIns2( H,R ),
+    run2(T,R).
+
+runIns2(H, R) =>
+    I = H.split(" =[]"),
+    if I[1]=="mask" then
+        R.put(mask,I[2])
+    else
+        L = memfunc2( R.get(mask), I[2].to_int),
+        V = I[3].to_int,
+        foreach (W in L) R.put(W,V) end
+    end.
+
+memfunc2(Mask,Ad) =M =>
+    Mask0=("0b"++Mask.replace('X','1')).to_int,
+    MaskX=Mask.replace('0','1'),
+    Mask1=("0b"++MaskX.replace('X','0')).to_int,
+    Base = (Ad \/ Mask0) /\ Mask1,
+    
+    MaskX:=Mask.replace('1','0'),
+    Mask2=("0b"++MaskX.replace('X','1')).to_int,
+    B=base_list(Mask2), L2=zip(B, 1..B.len),
+    L3 = [ L[1]<<L[2]-1 : L in L2, L[1]==1],
+    R = [sum(M): M in L3.power_set],
+    M = [R1+Base: R1 in R].
+
+
+base_list(0)=[].
+base_list(B)=B1 =>
+    B1= [(B/\1)|base_list(B>>1)].
+
+
+/*
+
+    MaskX:=Mask.replace('1','0'),
+    Mask2=("0b"++MaskX.replace('X','1')).to_int,
+    L=base_list(Mask2), L2=zip(L,1..L.len),
+    L3 = [ L[1]<<L[2]-1 : L in L2, L[1]==1],
+    R = [sum(M): M in L3.power_set].
+    
+%Xto10([H|T]) => 
+/*   */

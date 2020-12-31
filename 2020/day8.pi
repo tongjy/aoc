@@ -1,0 +1,63 @@
+import util, ordset.
+
+main => go.
+
+go => day81,day82.
+
+day822 =>
+    S=[2,170,483,444,55,56,415,432,434,36,349,541,194,195,499,304,306,370,573,359,401,519,429,111,72,74,16,19,318,320,322,279,22,147,181,40,41,66,561,565,405,409,471,472,473,594,285,79,374,290,293,124,64,625,254,548,550,551,232,228,601,352,421,422,424,157,247,249,314,395,328,132,532,533,588,590,240,198,201,340,341,342,388,580,153,100,379,185,186,188,271,272,274,468,10],
+    foreach (Si in S)
+        L=Si,day82(L).
+        
+day81 => day81(1).
+
+day81(T) =>
+    input_data(Tri),
+    path(T,0,Sum,Tri),
+    writeln(max_val=Sum).
+
+day82 => day82(8).
+day82(C) =>
+    input_data(Tri),
+    write(C),
+    if Tri[C,2]==2 then
+        Tri[C,2]:=0
+    elseif Tri[C,2]==0 then
+        Tri[C,2]:=2
+    end,
+    path(1,0,Sum,Tri).
+
+
+%table (+,+,max,nt)     % nt means that argument is not tabled
+
+path(Row,Val,Sum,Tri),Row>Tri.length => print('*'),writeln([Row,Val,{}]),Sum=1.
+path(Row,Val,Sum,Tri), Tri[Row,4]>0 => print('*'),writeln([Row,Val,Tri[Row],Row+1]),Sum=1.
+%nop
+path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==0 =>
+    Tri[Row,4]:=1,
+    path(Row+1,Val,Sum1,Tri),
+    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,
+    Sum = Sum1+1.
+%acc
+path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==1 => 
+    Tri[Row,4]:=1,
+    Val:=Val+Tri[Row,3],
+    path(Row+1,Val,Sum1,Tri),
+    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,Val:=Val,
+    Sum = Sum1+1.
+%jmp
+path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==2 =>
+    Tri[Row,4]:=1,
+    path(Row+Tri[Row,3],Val,Sum1,Tri),
+    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,
+    Sum = Sum1+1.
+
+
+input_data(Tri) => 
+    Lines = read_file_lines("day8.txt"),
+    Tri = new_array(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        Tri[I] = Line.split().map(to_integer).to_array(),
+        I := I+1
+    end.

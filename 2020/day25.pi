@@ -1,0 +1,41 @@
+import util.
+
+main => time(go).
+
+table
+r(1) = 7.
+r(N) = ( 7*r(N-1) ) mod 20201227.
+
+%Loop is far more faster in this case
+r(X, N) = R =>
+   R1=1,
+   do
+    R1 := ( X*R1 ) mod 20201227,
+    N:=N-1
+   while( N > 0),
+   R = R1.
+
+
+go =>
+    C = 17607508, D = 15065270,
+    CL=loop(C),
+    Ency=r(D, CL),
+    println(ency=Ency),
+    nl.
+
+sample =>
+    C = 5764801, D = 17807724,
+    CL=loop(C),
+    DL=loop(D),
+    DencyD=r(C, DL),
+    println(encyD=DencyD),
+    CencyC=r(D, CL),
+    println(encyC=CencyC),
+    nl.
+
+loop(Key)=N =>
+    I=1,
+    do
+        I:=I+1
+    while( Key !== r(I) ),
+    println(card=I),N=I.

@@ -1,0 +1,76 @@
+import util, ordset, math.
+
+main => go.
+
+go => day121,day122.
+
+day121 => 
+  input_data(S),
+  P=move(0,0,0,S),
+  println(P).
+
+move(X,Y,_,[]) = P => P=[X,Y].
+move(X,Y,D,[H|T])=P =>
+    move1(X,Y,D,H,X1,Y1,D1),
+    P=move(X1,Y1,D1,T).
+
+move1(X,Y,D,[H|T],X1,Y1,D1), H='F' => D1=D,
+    Dir="ESWN",
+    println(D),
+    Hi=Dir[(D.to_int/90).to_int+1],
+    move1(X,Y,D,[Hi|T],X1,Y1,D1).
+    
+move1(X,Y,D,[H|T],X1,Y1,D1), H='L' => X1=X, Y1=Y, D1=(D-T.to_int) mod 360.
+move1(X,Y,D,[H|T],X1,Y1,D1), H='R' => X1=X, Y1=Y, D1=(D+T.to_int) mod 360.
+move1(X,Y,D,[H|T],X1,Y1,D1), H='N' => D1=D, X1=X, Y1=Y+T.to_int.
+move1(X,Y,D,[H|T],X1,Y1,D1), H='S' => D1=D, X1=X, Y1=Y-T.to_int.
+move1(X,Y,D,[H|T],X1,Y1,D1), H='E' => D1=D, X1=X+T.to_int, Y1=Y.
+move1(X,Y,D,[H|T],X1,Y1,D1), H='W' => D1=D, X1=X-T.to_int, Y1=Y.
+
+day122 => 
+  input_data(S),
+  P=move2(0,0,10,1,S),
+  println(P),
+  printf("|%w|+|%w|=%w",P[1],P[2],P[1].abs+P[2].abs).
+
+tday122 => 
+  input_data1(S),
+  P=move2(0,0,10,1,S),
+  println(P),
+  printf("|%w|+|%w|=%w",P[1],P[2],P[1].abs+P[2].abs).
+
+move2(X,Y,_,_,[]) = P => P=[X,Y].
+move2(X,Y,Wx,Wy,[H|T])=P =>
+    wmove(X,Y,Wx,Wy,H,X1,Y1,Wx1,Wy1),
+    P=move2(X1,Y1,Wx1,Wy1,T).
+
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='F' => Wx1=Wx,Wy1=Wy,Ti=T.to_int,X1=X+Ti*Wx,Y1=Y+Ti*Wy.
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='N' => X1=X,Y1=Y,Ti=T.to_int,Wx1=Wx,Wy1=Wy+Ti.
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='S' => X1=X,Y1=Y,Ti=T.to_int,Wx1=Wx,Wy1=Wy-Ti.
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='E' => X1=X,Y1=Y,Ti=T.to_int,Wx1=Wx+Ti,Wy1=Wy.
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='W' => X1=X,Y1=Y,Ti=T.to_int,Wx1=Wx-Ti,Wy1=Wy.
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='R' => X1=X,Y1=Y,Ti=T.to_int, rotate(Wx,Wy,Ti,Wx1,Wy1).
+wmove(X,Y,Wx,Wy,[H|T],X1,Y1,Wx1,Wy1), H='L' => X1=X,Y1=Y,Ti=T.to_int, rotate(Wx,Wy,-Ti,Wx1,Wy1).
+
+rotate(X,Y,D,X1,Y1) =>
+    R=D.to_radians,
+    TM={{R.cos,R.sin},
+        {-R.sin,R.cos}},
+    L = matrix_multi(TM,{{X},{Y}}),
+    X1=L[1,1].round,Y1=L[2,1].round.
+
+input_data1(S) => S=[
+"F10",
+"N3 ",
+"F7 ",
+"R90",
+"F11"].
+
+input_data(S) => 
+    Lines = read_file_lines("day12.txt"),
+    S = new_list(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        S[I] = Line,
+        I := I+1
+    end.

@@ -1,0 +1,103 @@
+import util, ordset.
+
+main => go.
+
+go => day101,day102.
+
+day101 =>
+    input_data(Seats),
+    Done = true,
+    do
+        Cond := c1(Seats),
+        Seats := p1(Seats),
+        Done:=(Cond != c1(Seats))
+    while (Done),
+    println(c1(Seats)).
+
+day102 =>
+    input_data(NewSeats),
+    Cond = true,
+    do
+        OldSeats:=NewSeats,
+        NewSeats := p2(OldSeats),
+        Cond:=(c1(NewSeats) !== c1(OldSeats))
+    while (Cond),
+    println(c1(NewSeats)).
+
+
+p1(Seats)=NewSeats =>
+    Rows=Seats.len,Cols=Seats[1].len,
+    NewSeats=new_array(Rows, Cols),
+    foreach( R in 1..Rows, C in 1..Cols )
+        NewSeats[R,C]:=rule(R,C,Seats)
+    end.
+
+c1(Seats)=Count =>
+    Rows=Seats.len,Cols=Seats[1].len,
+    L=0,
+    foreach( R in 1..Rows, C in 1..Cols )
+        Seats[R,C]=='#' -> L:=L+1 ; L:=L
+    end,
+    Count=L.
+
+rule(X,Y,S)='.', S[X,Y]=='.' =>true.
+%Take seat
+rule(X,Y,S)=R, S[X,Y]=='L' =>
+    a_seats(X,Y,S) >0 -> R='L';R='#'.
+%Left seat
+rule(X,Y,S)=R, S[X,Y]=='#' =>
+    a_seats(X,Y,S) >=4 -> R='L';R='#'.
+
+p2(Seats)=NewSeats =>
+    Rows=Seats.len,Cols=Seats[1].len,
+    NewSeats=new_array(Rows, Cols),
+    foreach( R in 1..Rows, C in 1..Cols )
+        NewSeats[R,C]:=rule2(R,C,Seats)
+    end.
+
+rule2(X,Y,S)='.', S[X,Y]=='.' =>true.
+rule2(X,Y,S)=R, S[X,Y]=='L' =>
+    b_seats(X,Y,S) >0 -> R='L';R='#'.
+rule2(X,Y,S)=R, S[X,Y]=='#' =>
+    b_seats(X,Y,S) >=5 -> R='L';R='#'.
+
+b_seats(X,Y,S) = R =>
+    D = [b_seats(X,Y,A,B,S): 
+        A in -1..1, B in -1..1, 
+        [A,B] !== [0,0] ],
+    R = [L:L in D,L=='#'].len.
+
+b_seats(X,Y,D1,D2,S) = '.', X+D1<=0;Y+D2<=0 => true.
+b_seats(X,Y,D1,D2,S) = '.', X+D1>S.len; Y+D2>S[1].len => true.
+b_seats(X,Y,D1,D2,S) = 'L', S[X+D1,Y+D2]=='L' => true.
+b_seats(X,Y,D1,D2,S) = '#', S[X+D1,Y+D2]=='#' => true.
+b_seats(X,Y,D1,D2,S) = R, S[X+D1,Y+D2]=='.' =>
+    R=b_seats(X+D1,Y+D2,D1,D2,S).
+
+a_seats(X,Y,S) = R =>
+    M1=S.len,M2=S[1].len,
+    R=[S[Xi,Yi]: 
+        Xi in X-1..X+1,Yi in Y-1..Y+1,[Xi,Yi]!=[X,Y],
+        Yi>0,Xi>0,Xi<=M1,Yi<=M2,
+        S[Xi,Yi]=='#'].len.
+
+input_data1(Seats) => Seats={
+"L.LL.LL.LL".to_array,
+"LLLLLLL.LL".to_array,
+"L.L.L..L..".to_array,
+"LLLL.LL.LL".to_array,
+"L.LL.LL.LL".to_array,
+"L.LLLLL.LL".to_array,
+"..L.L.....".to_array,
+"LLLLLLLLLL".to_array,
+"L.LLLLLL.L".to_array,
+"L.LLLLL.LL".to_array}.
+
+input_data(Seats) => 
+    Lines = read_file_lines("day10.txt"),
+    Seats = new_array(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        Seats[I] = Line.to_array(),
+        I := I+1
+    end.

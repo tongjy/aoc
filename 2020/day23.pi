@@ -1,0 +1,167 @@
+import util, cp, ordset.
+
+main => go, go2.
+
+go=>
+    S = "598162734",
+%    S = "389125467",
+    M=new_map(), %1..1,000,000
+    IS = S.map(to_int), Cur=IS.first,
+    foreach( {I,J} in zip([IS.last]++IS, IS))
+        M.put(I,J) 
+    end,
+    printm(M,1),
+    I:=1,
+    while(I < 100)
+        Cur:=round1(Cur, M, 1, 9),
+        I:=I+1
+    end,
+    printm(M,1).
+
+go2=>
+    S = "598162734",
+%    S = "389125467",
+    M=new_map(),  %1..1,000,000
+    IS = S.map(to_int), Cur=IS.first,
+    foreach( {I,J} in zip([1000000]++IS, IS)) M.put(I,J) end,
+    M.put(IS.last,10),
+    I:=10, 
+    while(I < 1000000)
+        M.put(I,I+1), 
+        I:=I+1
+    end,
+    I:=1,
+    while(I < 10000000)
+        Cur:=round1(Cur, M, 1, 1000000),
+        I:=I+1
+    end,
+    printm(M,1),
+    N1 = M.get(1),N2 = M.get(N1), N3 = N1*N2,
+    println(result=N3),
+    println(size_m=M.size),
+    nl.
+
+printm(M,Cur) =>
+    print(Cur),Next=M.get(Cur), I=1,
+    while(Next != Cur, I<13 )
+        print(","),print(Next),flush(),
+        I:=I+1,
+        Next:=M.get(Next)
+    end,
+    nl.
+
+round1(Cur, M,  Min, Max)=Next =>
+    %pick3
+    Pick=pick3(M, Cur),
+    MMin=allmin(Min, Pick),
+    MMax=allmax(Max, Pick),
+    %Dest
+    Dest:=dest(Cur, Pick, MMin, MMax),
+    %next
+    VDest:=get(M, Dest),
+    %place
+    M.put(Pick[3], VDest ),
+    M.put(Dest, Pick[1]),
+    %gonext
+    Next=get(M, Cur).
+
+allmin(Min, List) = M, membchk(Min, List)  => M = allmin(Min+1, List).
+allmin(Min, _) = Min.
+    
+allmax(Max, List) = M, membchk(Max, List)  => M = allmax(Max-1, List).
+allmax(Max, _) = Max.
+
+test2 =>
+    S = "389125467", %, S:="598162734",
+    M=new_map(), %1..1,000,000
+    IS = S.map(to_int),
+    foreach( {I,J} in zip([1000000]++IS, IS)) M.put(I,J) end, 
+    M.put(IS.last,10),
+    I:=10,
+    while(I < 1000000)
+        M.put(I,I+1), 
+        I:=I+1
+    end,
+    Cur = IS.first, Max=1000000, Min=1, Pick=[],I:=1,
+    Cur:=3,
+    do
+        Pick:=pick3(M, Cur),
+        Min:=allmin(Min, Pick),
+        Max:=allmax(Max, Pick),
+        %Dest
+        Dest:=dest(Cur, Pick, Min, Max),
+        %next
+        VDest:=get(M, Dest),
+        %place
+        M.put(Pick[3], VDest ),
+        M.put(Dest, Pick[1]),
+        Pick:=[],Max:=1000000, Min:=1,
+        %gonext
+        Cur:=get(M, Cur),
+    I:=I+1,if(I mod 10000 == 0) then print(I),print(":"),flush() end
+    while(I < 10000000),
+    nl,
+    println(size_m=M.size),
+    N1 = M.get(1),N2 = M.get(N1), N3 = N1*N2,
+    print(n1n2n3=[N1,N2,N3]).
+
+test =>
+    S = "598162734",
+    M=new_map(),  %1..1,000,000
+    IS = S.map(to_int),
+    foreach( {I,J} in zip([1000000]++IS, IS)) M.put(I,J) end, 
+    M.put(IS.last,10),
+    I:=10, 
+    while(I < 1000000)
+        M.put(I,I+1), 
+        I:=I+1
+    end,
+    Cur = IS.first, Max=1000000, Min=1, Pick=[],
+    Cur:=1000000,
+    do
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        Pick:=pick3(M, Cur),
+        Min:=allmin(Min, Pick),
+        Max:=allmax(Max, Pick),
+        println("Pick3"),
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        %Dest
+        Dest:=dest(Cur, Pick, Min, Max),
+        print("Dest:"),println(Dest),
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        %getdest
+        VDest:=get(M,  Dest),
+        print("GetDest:"),println(VDest),
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        %place
+        M.put(Pick[3], VDest ),
+        M.put(Dest, Pick[1]),
+        Pick:=[],Max:=1000000, Min:=1,
+        print("Place123:"),println(Dest),
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        %gonext
+        Cur:=get(M,  Cur),
+        print("Go Next:"),println(Cur),
+        print(cur=Cur),print(max_min=[Max,Min]),println(pick=Pick),
+        printm(M,1),println("---------------"),flush(),
+        nl,
+    S:=read_line()
+    while("exit" !==S).
+    
+pick3(M,  Cur) = [Pick1,Pick2,Pick3] =>
+    Pick1 = M.get( Cur),
+    Pick2 = M.get( Pick1),
+    Pick3 = M.get( Pick2),
+    M.put( Cur, M.get(Pick3) ).   
+   
+
+dest(Cur, _, Min, Max)= Dest, Cur-1 < Min =>
+    Dest=Max.
+dest(Cur, Pick, Min, Max)= Dest ,membchk(Cur-1, Pick) =>
+    Dest = dest(Cur-1, Pick, Min, Max).
+dest(Cur, _, _, _)= Cur-1.

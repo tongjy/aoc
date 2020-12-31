@@ -1,0 +1,32 @@
+%day14
+import util.
+
+day152(A,M) =>
+    Ks=new_map(),
+    foreach (L in zip(1..A.len, A))
+        Ks.put(L[2],L[1])
+    end,
+    N=A.len, D=A.last, D1=0,
+    do
+        D1:=D, N:=N+1,
+        D:=cond((Ks.has_key(D1)), N-1-Ks.get(D1), 0),
+        Ks.put(D1,N-1)
+    while(N < M),
+    println([N,D]).
+
+%back
+day151(A,D) =>
+    Ks=new_map(),
+    foreach (L in zip(1..A.len-1, A))
+        Ks.put(L[2],L[1])
+    end,
+    Ks.put(last,A.last), Ks.put(max,A.len),
+    L=turns(D,Ks),
+    println(L).
+
+
+turns(N, Ks)=W, N==Ks.get(max) =>W=Ks.get(last).
+turns(N, Ks)=D, N>3 =>
+    D1=turns(N-1, Ks),
+    D=cond((Ks.has_key(D1)), N-1-Ks.get(D1), 0),
+    Ks.put(D1,N-1).

@@ -1,0 +1,90 @@
+import util.
+
+day181 => 
+    Lines = read_file_lines("day18.txt"),
+    S = new_list(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        I1=Line.split(" "),
+        S[I] = calc1(I1.reverse),
+        I := I+1
+    end,
+    println(S.sum).
+
+day182 => 
+    Lines = read_file_lines("day18.txt"),
+    S = new_list(Lines.length),
+    I = 1,
+    foreach(Line in Lines)
+        I1=Line.split(" "),
+        S[I] = calc2(I1.reverse),
+        I := I+1
+    end,
+    println(S.sum).
+
+calc(T) =>
+    I1=T.split(" "),
+    S = calc2(I1.reverse),
+    println(S).
+    
+calc1( [H|[]] ) = H.to_int.
+    
+calc1( [[')']|T] )= R1 =>
+    I=0, Q=1,
+    do
+        I:=I+1,
+        if T[I]==['('] then Q:=Q-1
+        elseif T[I]==[')'] then Q:=Q+1 end
+    while(Q !== 0, I < T.len),
+    if(I == T.len) then
+        R1 = calc1( T.slice(1,T.len-1) )
+    else
+        R1 = apply( T[I+1,1],
+            calc1( T.slice(1,I-1) ),
+            calc1( T.slice(I+2, T.len) ))
+    end.
+calc1( [H1,H2|T] )= R1 =>
+    R1 = apply(H2[1], H1.to_int, calc1(T)).
+
+
+calc2( [H|[]] ) = H.to_int.
+    
+calc2( [[')']|T] )= R1 =>
+    I=0, Q=1,
+    do
+        I:=I+1,
+        if T[I]==['('] then Q:=Q-1
+        elseif T[I]==[')'] then Q:=Q+1 end
+    while(Q !== 0, I < T.len),
+    if(I == T.len) then
+        R1 = calc2( T.slice(1,T.len-1) )
+    else
+        L = calc2( T.slice(1,I-1)),
+        R1 = calc2( [ L | T.slice(I+1, T.len) ] )
+    end.
+
+calc2( [H1,[+]|T] )= R1 =>
+    apart2(T, L, R),
+    L1 = apply(+, H1.to_int, calc2(L)),
+    R1 = calc2( [ L1 | R ] ).
+
+calc2( [H1,[*]|T] )= R1 =>
+    R1 = apply(*, H1.to_int, calc2(T)).
+
+
+apart2( [[')']|T],L, R ) =>
+    I=0, Q=1,
+    do
+        I:=I+1,
+        if T[I]==['('] then Q:=Q-1
+        elseif T[I]==[')'] then Q:=Q+1 end
+    while(Q !== 0, I < T.len),
+    if(I == T.len) then
+        L = T.slice(1,T.len-1),R =[]
+    else
+        L = T.slice(1,I-1),
+        R = T.slice(I+1, T.len)
+    end.
+
+apart2( [H|T], L, R) =>
+    L=H,R=T.

@@ -1,0 +1,105 @@
+import cp.
+import v3_utils.
+
+e([0, +1]) --> "e".
+w([0, -1]) --> "w".
+nw([+1, -1]) --> "nw".
+ne([+1, 0]) --> "ne".
+sw([-1,0]) --> "sw".
+se([-1,+1]) --> "se".
+
+step(L) --> e(L);w(L);nw(L);ne(L);sw(L);se(L).
+
+steps([]) --> [].
+steps([H|T]) --> step(H),!,steps(T).
+
+go5b :-
+   %X = "wneeseswwne",
+   N= [[0,1],[0,-1],[1,-1],[1,0],[-1,0],[-1,1]],
+   % tree_nodes(N,X,[]),
+   phrase(steps,N,X),
+   [X1,Y1] = position(N),
+   println(position=[X1,Y1]),
+   println(n=N),
+   println(x=X),
+   nl.
+
+go5b.
+
+
+
+position(L) =[X,Y] =>
+    X = sum([L[I,1] :I in 1..L.len]),
+    Y = sum([L[I,2] :I in 1..L.len]).
+    
+input_data(S) =>
+    S = read_file_lines("day24.txt").
+
+
+input_dataT(S) =>
+S=[
+"sesenwnenenewseeswwswswwnenewsewsw",
+"neeenesenwnwwswnenewnwwsewnenwseswesw",
+"seswneswswsenwwnwse",
+"nwnwneseeswswnenewneswwnewseswneseene",
+"swweswneswnenwsewnwneneseenw",
+"eesenwseswswnenwswnwnwsewwnwsene",
+"sewnenenenesenwsewnenwwwse",
+"wenwwweseeeweswwwnwwe",
+"wsweesenenewnwwnwsenewsenwwsesesenwne",
+"neeswseenwwswnwswswnw",
+"nenwswwsewswnenenewsenwsenwnesesenew",
+"enewnwewneswsewnwswenweswnenwsenwsw",
+"sweneswneswneneenwnewenewwneswswnese",
+"swwesenesewenwneswnwwneseswwne",
+"enesenwswwswneneswsenwnewswseenwsese",
+"wnwnesenesenenwwnenwsewesewsesesew",
+"nenewswnwewswnenesenwnesewesw",
+"eneswnwswnwsenenwnwnwwseeswneewsenese",
+"neswnwewnwnwseenwseesewsenwsweewe",
+"wseweeenwnesenwwwswnew"
+].
+
+go =>
+    input_data(S),
+    M = new_map(),
+    foreach(L in S)
+        phrase(steps,P,L),
+        A := position(P),
+        M.put( A, cond( 'b' = M.get(A, 'w'), 'w', 'b') )
+    end,
+    C = values(M),
+    print("Blacks:"),
+    println( [B: B in C, B=='b'].len ),
+    
+    foreach( I in 1..100 )
+        F_L := new_map(),
+        Bcounts := 0,
+        foreach( K=V in M )
+            if( 'b'==V ) then
+                Bcounts:=Bcounts+1, 
+                L:=check(K,V,M),
+                foreach(Li in L) F_L.put([Li[1], Li[2]],Li[3]) end
+            end
+        end,
+        foreach( K=V in F_L ) M.put(K,V) end,
+        println(Bcounts),
+        print(round=I),print(": ")
+    end,
+    C := values(M), 
+%    print("Blacks:"),
+    println( [B: B in C, B=='b'].len ).
+    
+
+check([X,Y],V,M)= L, V=='b' =>
+    N = [[0,-1],[0,1],[1,0],[1,-1],[-1,1],[-1,0],[0,0]],
+    L = [ [X1,Y1,cond('w'==C, 'b','w')]: Item in N, X1=X+Item[1],Y1=Y+Item[2], C=M.get([X1,Y1],'w'), check(X1,Y1,C,M) ].
+    
+check(X,Y,V,M) =>
+    N = [[0,-1],[0,1],[1,0],[1,-1],[-1,1],[-1,0]],
+    NumB = [ C : Item in N, X1=X+Item[1],Y1=Y+Item[2], C=M.get([X1,Y1],'w'), C=='b'].len,
+    if ( 'w'==V, 2==NumB );('b'==V, NumB==0 );('b'==V, NumB>2) then 
+        true 
+    else 
+        fail
+    end.
