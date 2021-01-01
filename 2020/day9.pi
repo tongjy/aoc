@@ -4,7 +4,9 @@ input_data(D) =>
     Lines = read_file_lines("day9.txt"),
     D = [L.to_int: L in Lines].
 
-main => 
+main => time(go).
+
+go =>
     E = day91(),
     println(E),
     R = day92(E),
