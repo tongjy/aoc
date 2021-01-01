@@ -1,72 +1,38 @@
-import util, ordset.
+%import util, ordset.
 
 input_data(D) => 
     Lines = read_file_lines("day9.txt"),
-    D = new_list(Lines.length),
-    I = 1,
-    foreach(Line in Lines)
-        D[I] = Line.to_integer,
-        I := I+1
-    end.
+    D = [L.to_int: L in Lines].
 
-input_data_t(D) => 
-  D=[35,20,15,25,47,40,62,55,65,95,102,117,150,182,127,219,299,277,309,576].
-  
+main => 
+    E = day91(),
+    println(E),
+    R = day92(E),
+    println(R).
 
-day91_t => 
-    input_data_t(D),
-    foreach(I in 6..D.len)
-        if not valid5(I,D) then println(D[I]),fail end,
-        println(I)
-    end.
+day91 = E =>
+    input_data(D), I=26,
+    while( valid25(I,D) ) I:=I+1 end, %println(i=I),
+    E=D[I].
 
-day91 => 
-    input_data(D),
-    foreach(I in 26..D.len)
-        if not valid25(I,D) then println(D[I]),fail end
-    end.
+valid25(M,D), M>25 =>
+    L=D.slice( M-25, M-1), 
+    day9chk(D[M], L).
 
-%127 or 1124361034
+day9chk(_,[]) => fail.
 
-errornum1.
+day9chk(I,L@[H|T]) =>
+    membchk(I-H, L );
+    day9chk(I, T).
 
-day92_t =>
-    input_data_t(D),
-    S0 = 1,
-    errornum1=127,
-    getlist(S0,2,O,_,D),
-    L = D[O[1]..O[2]],
-    println(sum(L)),
-    println([L.min,L.max,L.max+L.min]).
-    
-day92 = E =>
-    input_data(D),
-    S0 = 1,
-    errornum1=1124361034,
-    getlist(S0,2,O,_,D),
-    L = D[O[1]..O[2]],
-    println(O),
-    println(sum(L)),
-    Lmax = L.max, Lmin=L.min, E=Lmax+Lmin,
-    println([Lmin,Lmax,E]).
+day92( E ) = R =>
+    input_data( D ),
+    getlist(1, 2,[St,Sp], D, E),
+    L = D[St..Sp], %println(st_sp=[St,Sp]), 
+    Lmax = L.max, Lmin=L.min, R=Lmax+Lmin.
 
-%table(+,+,-,min,nt)
-getlist(St, Sp, O, Len, D), sum( D.slice(St,Sp) )==errornum1 => O=[St,Sp],Len=0.
-getlist(St, Sp, _,_, D), sum( D.slice(St,Sp) )>errornum1 => fail.
-getlist(St, Sp, _,_, _), St==Sp => fail.
-getlist( _St, Sp, _,_, D), Sp>D.len => fail.
-getlist(St, Sp, O, Len, D) ?=>
-    getlist(St, Sp+1, O, Len1, D), Len=Len1+1.
-getlist(St, Sp, O, Len, D) ?=>
-    getlist(St+1, Sp, O, Len1, D), Len=Len1+1.
-
-valid5(M,D), M>5 => L=D.slice( M-5, M-1), not day9chk(D[M], L).
-valid25(M,D), M>25 => L=D.slice( M-25, M-1), not day9chk(D[M], L).
-
-
-day9chk(_,[]) => true. %there is no pair in the list
-day9chk(I,[H|T]) =>
-    not membchk(I-H, [H|T]), % found, I=H+?
-    day9chk(I,T).
-
-
+%table(+,+,-,min,nt,nt)
+getlist(St, Sp, O, D, E), sum( D.slice(St,Sp) )==E => O=[St,Sp].
+getlist(St, Sp, _, D, E), sum( D.slice(St,Sp) ) > E ; St>=Sp; Sp>D.len => fail.
+getlist(St, Sp, O, D, E) ?=> getlist(St, Sp+1, O, D, E).
+getlist(St, Sp, O, D, E) ?=> getlist(St+1, Sp, O, D, E).
