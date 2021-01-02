@@ -55,7 +55,7 @@ path(Row,Val,Sum,Res,Data), Data[Row,4]==0, Data[Row,2]==2 =>
     Sum = [Row|Sum1].
 
 input_data(Data) =>
-    Lines = read_file_lines("day8o.txt"),
+    Lines = read_file_lines("day8.txt"),
     Data = map(instruction, Lines, 1.. Lines.len).
 
 instruction(S, I)=[I, Operation, Argument, 0, 0] =>
