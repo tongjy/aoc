@@ -1,63 +1,72 @@
-import util, ordset.
+import util.
 
-main => go.
+main => time(go).
 
-go => day81,day82.
+go => 
+    day81(L, LastVal),
+    println(last_value=LastVal),
+    I=1,
+    do
+        Last = day82(L[I]), I:=I+1,
+        if(Last[1] == -1) then println( value2=Last[2] ),I:=L.len end
+    while( I < L.len ).
+    
+ 
+day81(L, Val) =>
+    input_data(Data),
+    path(1,0,Path,Val,Data),
+    L=Path.remove_dups.
 
-day822 =>
-    S=[2,170,483,444,55,56,415,432,434,36,349,541,194,195,499,304,306,370,573,359,401,519,429,111,72,74,16,19,318,320,322,279,22,147,181,40,41,66,561,565,405,409,471,472,473,594,285,79,374,290,293,124,64,625,254,548,550,551,232,228,601,352,421,422,424,157,247,249,314,395,328,132,532,533,588,590,240,198,201,340,341,342,388,580,153,100,379,185,186,188,271,272,274,468,10],
-    foreach (Si in S)
-        L=Si,day82(L).
-        
-day81 => day81(1).
 
-day81(T) =>
-    input_data(Tri),
-    path(T,0,Sum,Tri),
-    writeln(max_val=Sum).
-
-day82 => day82(8).
-day82(C) =>
-    input_data(Tri),
-    write(C),
-    if Tri[C,2]==2 then
-        Tri[C,2]:=0
-    elseif Tri[C,2]==0 then
-        Tri[C,2]:=2
+day82(C)=R =>
+    input_data(Data),
+    if Data[C,2]==2 then
+        Data[C,2]:=0
+    elseif Data[C,2]==0 then
+        Data[C,2]:=2
     end,
-    path(1,0,Sum,Tri).
-
+    path(1,0, Sum, Ret, Data),
+    R = [Sum.last, Ret].
 
 %table (+,+,max,nt)     % nt means that argument is not tabled
+path(Row,Val,Sum, Res,Data), Row>Data.length => Sum=[-1],Res=Val.
 
-path(Row,Val,Sum,Tri),Row>Tri.length => print('*'),writeln([Row,Val,{}]),Sum=1.
-path(Row,Val,Sum,Tri), Tri[Row,4]>0 => print('*'),writeln([Row,Val,Tri[Row],Row+1]),Sum=1.
+path(Row,Val,Sum,Res,Data), Data[Row,4]>0 => Res=Val, Sum=[Row].
+
 %nop
-path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==0 =>
-    Tri[Row,4]:=1,
-    path(Row+1,Val,Sum1,Tri),
-    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,
-    Sum = Sum1+1.
+path(Row,Val,Sum,Res,Data), Data[Row,4]==0, Data[Row,2]==0 =>
+    Data[Row,4]:=1,
+    path(Row+1,Val,Sum1,Res,Data),
+    Data[Row,4]:=1,
+    Sum=[Row|Sum1].
+
 %acc
-path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==1 => 
-    Tri[Row,4]:=1,
-    Val:=Val+Tri[Row,3],
-    path(Row+1,Val,Sum1,Tri),
-    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,Val:=Val,
-    Sum = Sum1+1.
+path(Row,Val,Sum,Res,Data), Data[Row,4]==0, Data[Row,2]==1 =>
+    Data[Row,4]:=1,
+    Val:=Val+Data[Row,3],
+    path(Row+1,Val,Sum,Res,Data),
+    Data[Row,4]:=1.
+
 %jmp
-path(Row,Val,Sum,Tri),Tri[Row,4]==0,Tri[Row,2]==2 =>
-    Tri[Row,4]:=1,
-    path(Row+Tri[Row,3],Val,Sum1,Tri),
-    Tri[Row,4]:=Sum1+1,Tri[Row,5]:=Val,
-    Sum = Sum1+1.
+path(Row,Val,Sum,Res,Data), Data[Row,4]==0, Data[Row,2]==2 =>
+    Data[Row,4]:=1,
+    path(Row+Data[Row,3],Val,Sum1,Res,Data),
+    Data[Row,4]:=1,
+    Sum = [Row|Sum1].
 
+input_data(Data) =>
+    Lines = read_file_lines("day8o.txt"),
+    Data = map(instruction, Lines, 1.. Lines.len).
 
-input_data(Tri) => 
-    Lines = read_file_lines("day8.txt"),
-    Tri = new_array(Lines.length),
-    I = 1,
-    foreach(Line in Lines)
-        Tri[I] = Line.split().map(to_integer).to_array(),
-        I := I+1
-    end.
+instruction(S, I)=[I, Operation, Argument, 0, 0] =>
+    if "acc"==S[1..3] then
+        Operation = 1
+    elseif "jmp"==S[1..3] then
+        Operation = 2
+    elseif "nop"==S[1..3] then
+        Operation = 0
+    else
+        Operation = -1
+    end,
+    Argument=S[4..S.len].to_int .
+    
