@@ -1,0 +1,103 @@
+import util, ordset, math.
+
+main => time(go).
+
+go => day131, day132.
+
+day131 => 
+    input_data(Data),
+    Timestamp = Data[1,1].to_int,
+    StartTime=0, Table=new_map(),
+    foreach( S in Data[2] )
+        if( S != [x] ) then
+            BusID = S.to_int,
+            WaitTime = BusID - ( Timestamp mod BusID ),
+            Table.put( WaitTime , BusID)
+        end,
+        StartTime:=StartTime+1
+    end,
+    MinTime = min( keys(Table) ),
+    println( part_one = MinTime * Table.get( MinTime ) ).
+
+day132 => 
+    input_data(Data),
+    StartTime=0, Table=new_map(),
+    foreach( S in Data[2] )
+        if( S != [x] ) then
+            BusID = S.to_int,
+            Table.put(BusID, StartTime)
+        end,
+        StartTime:=StartTime+1
+    end,
+    A=1,
+    foreach( K=_V in Table)
+      lcm(A,K,L),
+      A := L
+    end,
+    R=0,
+    foreach( M1=A1 in Table)
+      M:= A//M1, X := A1*invmod( M, M1 )* M,
+      R:=R + X
+    end,
+    println(part_two=A-(R mod A)).
+
+testall => 
+    input_data(Data),
+    I=1,
+    while( I < Data.len )
+        println(firstline=Data[I,1]),
+        StartTime=0, Table=new_map(),
+        foreach( S in Data[I+1] )
+            if( S != [x] ) then
+                BusID = S.to_int,
+                Table.put(BusID, StartTime)
+            end,
+            StartTime:=StartTime+1
+        end,
+        print(Table),print(", "),
+        A=1,
+        foreach( K=_V in Table)
+          lcm(A,K,L),
+          A := L
+        end,
+        write(lcm=A),print(", "),
+        R=0,
+        foreach( M1=A1 in Table)
+          M:= A//M1, X := A1*invmod( M, M1 )* M,
+          R:=R + X
+        end,
+        writeln(crt=R),
+        println(part_two=A-(R mod A)),
+        I:=I+2
+    end.
+
+
+input_data(Data) =>
+    Lines = read_file_lines("day13.txt"),
+    Data = [L.split(",") : L in Lines ].
+
+% lcm/2
+lcm(X,Y)=LCM => GCD=gcd(X,Y), LCM = X*Y//GCD.
+% lcm/3
+lcm(X,Y,LCM) => GCD=gcd(X,Y), LCM = X*Y//GCD.
+
+%gcdx=(d,u,v)
+gcdx(A, B) = R =>
+    X = A,Y = B,
+    S0=1, S1=0,
+    T0=0, T1=1,
+    while (Y != 0 )
+        Q := X // Y, M := mod(X, Y),
+        X := Y, Y:= M,
+        S := S0 - Q*S1,
+        S0:=S1, S1 := S,
+        T := T0 - Q*T1,
+        T0:=T1, T1:= T
+    end,
+    R= cond(X < 0 , [-X, -S0, -T0] , [X, S0, T0]).
+
+%invmod
+invmod(N, M)=R, M!=0 =>
+    [G, X, _Y] = gcdx(N, M),
+    if( G != 1 ) then println("invmod failed"),fail end, %GCD not 1
+    R = mod(X, M).
