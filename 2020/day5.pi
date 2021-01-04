@@ -1,0 +1,31 @@
+import util.
+
+main => time(go).
+
+go => day51,day52.
+
+day51=>
+    input_data(Seats),
+    Seats:=Seats.sort,
+    println(maxid=Seats.last),
+    %day52
+    My = [ Seats[I]-1 : I in 2..Seats.len, (Seats[I]-Seats[I-1]) == 2 ],
+    print(myseat=My),
+    nl.
+
+day52=>true.
+
+seatid(S)=ID =>
+    BS = S.map(bfrlto10),
+    [ROW, COL]= [ BS.slice(1,7), BS.slice(8,10) ].map( bstoint ),
+    ID=ROW*8+COL.
+    
+bfrlto10(C)=B =>
+    B=cond( (C=='B';C=='R'), '1' ,'0' ).
+
+bstoint(S)=I =>
+    I= to_int( "0b"++S ) .
+    
+input_data(Seats) =>
+    Data = read_file_lines("day5.txt"),
+    Seats = Data.map(seatid).
