@@ -1,0 +1,34 @@
+import util.
+
+main => time(go).
+
+go => day101,day102.
+
+day101 =>
+    input_data(Data),
+    S=[0]++Data.sort, % 0 = start point 
+    W= ([ S[I+1]-S[I] : I in 1..S.len-1 ]).sort,
+    C1=W.find_last_of(1)-W.find_first_of(1)+1,
+    C3=W.find_last_of(3)-W.find_first_of(3)+1+1,  %plus last point difference 3
+    println(part_one=C1*C3).
+
+day102 => 
+    input_data(Data),
+    S=[0]++Data.sort++[max(Data)+3],
+    S1= [ S[I+1]-S[I] : I in 1..S.len-1 ], %1,3 list
+    S2= [ cond( S1[I+1]+S1[I]<=3, 0, S1[I])
+            : I in 1..S1.len-1]++[S1.last], %list
+    S3=S2.split([1,3]),
+    P = S3.map( zero2int ),
+    println(part_two=P.prod).
+
+zero2int(Z)=P =>
+    L = Z.len, P = 2**L - cond(L>=3, 1,0), L<4. %L=4 P=2**L-2
+
+input_data_t(Data) =>
+%    Data=[16,10,15,5,1,11,7,19,6,12,4].
+    Data=[28,33,18,42,31,14,46,20,48,47,24,23,49,45,19,38,39,11,1,32,25,35,8,17,7,9,4,2,34,10,3].
+    
+input_data(Data) =>
+    Lines = read_file_lines("day10.txt"),
+    Data=Lines.map(to_int).
