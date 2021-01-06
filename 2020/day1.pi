@@ -1,0 +1,27 @@
+import cp.
+
+main => time(go).
+
+go => 
+    input_data(Data),
+    day11(Data),day12(Data).
+
+day11(Data)=>
+    Vars=[X,Y],
+    Vars :: Data,
+    X #< Y,
+    X + Y #= 2020,
+    solve(Vars),
+    println(part_one=X*Y).
+
+day12(Data)=>
+    Vars=[X,Y,Z],
+    Vars :: Data,
+    X #< Y, Y#<Z,
+    X + Y + Z #= 2020,
+    solve(Vars),
+    println(part_two=X*Y*Z).
+
+input_data(Data) =>
+    Lines = read_file_lines("day1.txt"),
+    Data = Lines.map(to_int).sort.
