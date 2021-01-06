@@ -1,0 +1,31 @@
+import util.
+
+main => time(go).
+
+go => day21,day22.
+
+day21 =>
+    input_data(Data), N=0,
+    foreach(L in Data) 
+        valid1(L) -> N:=N+1;true
+    end,
+    println(part_one=N).
+
+valid1(L) =>
+   [N1,N2,C,S] = L.split("-: "),
+   N = count_all(member(C[1],S)),
+   N1.to_int <= N, N <= N2.to_int.
+
+day22 =>
+    input_data(Data), N=0,
+    foreach(L in Data)
+        valid2(L) -> N:=N+1;true
+    end,
+    println(part_two=N).
+
+valid2(L) =>
+   [N1,N2,C,S] = L.split("-: "),
+   cond(S[N1.to_int]=C[1],1,0) ^ cond(S[N2.to_int]=C[1],1,0) = 1.
+
+input_data(Data) =>
+    Data = read_file_lines("day2.txt").
