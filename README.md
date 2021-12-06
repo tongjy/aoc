@@ -1,4 +1,20 @@
-# aoc 
+# aoc 2021 : github copilot
+2021年的主题是github copilot。 刚刚通过了申请，抱着试试看的心态，来使用copilot进行解题。
+- day1：非常顺利，应该是题目简单把，只要把题目内容复制粘贴, 加上‘#’号。copilot 自动完成了所有的工作
+- day2: 昨天的路，走不通了，大概是因为解决方法需要一些转换，需要自己定义一些基础函数的名字，copilot就会给出自己的方式：
+
+        if command[0] == 'f':
+            pos += int(command1[1])
+        elif command[0] == 'd':
+            depth += int(command1[1])
+        elif command[0] == 'u':
+            depth -= int(command1[1])
+        return (pos, depth)
+- day3：经过昨天小小的改变，先定义了一些函数，由copilot完成这些函数"砖块"，最后由copilot来组装
+- day4\day5: 上述模式依然成立
+  - [tongjy/aoc/2021](https://github.com/tongjy/aoc/2021) ![Last Commit on GitHub](https://img.shields.io/badge/last%20commit-2021--12--05-brightgreen)
+
+# aoc 2020
 - Learning [Picat](http://picat-lang.org/) by solving [Aoc2020](https://adventofcode.com/)
 * [tongjy/aoc](https://github.com/tongjy/aoc) ![Last Commit on GitHub](https://img.shields.io/badge/last%20commit-2021--01--06-brightgreen)
 
